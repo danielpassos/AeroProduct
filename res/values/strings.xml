@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AeroProduct</string>
+    <string name="refresh">Refresh</string>
+    <string name="product">Product</string>
+    <string name="name">Name</string>
+    <string name="price">Price</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="wait">Wait...</string>
+    <string name="loading">Loading products</string>
+    <string name="required">This is required</string>
+</resources>

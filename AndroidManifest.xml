@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="me.passos.talks.aerogear"
+          android:versionCode="1"
+          android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="18"/>
+
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="me.passos.talks.aerogear.permission.C2D_MESSAGE"/>
+
+    <permission android:name="me.passos.talks.aerogear.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+
+    <application android:label="@string/app_name" android:name=".AeroProductsApplication"
+                 android:icon="@drawable/ic_launcher" android:theme="@style/AppTheme">
+        <activity android:name=".activities.ProductActivity" android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
