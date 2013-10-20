@@ -15,8 +15,8 @@ import me.passos.talks.aerogear.fragments.ProductListFragment;
 import me.passos.talks.aerogear.model.Product;
 import me.passos.talks.aerogear.util.Constants;
 import org.jboss.aerogear.android.pipeline.AbstractActivityCallback;
+import org.jboss.aerogear.android.pipeline.LoaderPipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductActivity extends Activity {
@@ -108,8 +108,9 @@ public class ProductActivity extends Activity {
     // -- GET
 
     public void retrieveProductListFromServer() {
-        Toast.makeText(this, "Ok, They was retrieved ;)", Toast.LENGTH_SHORT).show();
-        displayProductList(new ArrayList<Product>());
+        LoaderPipe<Product> productPipe = application.getProductPipe(this);
+        productPipe.reset();
+        productPipe.read(new ProcutListCallback());
     }
 
     private static class ProcutListCallback extends AbstractActivityCallback<List<Product>> {
@@ -137,7 +138,8 @@ public class ProductActivity extends Activity {
     // -- DELETE
 
     public void removeProjectOnServer(Product product) {
-        Toast.makeText(this, "Ok, It was removed ;)", Toast.LENGTH_SHORT).show();
+        LoaderPipe<Product> productPipe = application.getProductPipe(this);
+        productPipe.remove(String.valueOf(product.getId()), new ProductDeleteCallback());
     }
 
     private static class ProductDeleteCallback extends AbstractActivityCallback<Void> {
@@ -165,7 +167,8 @@ public class ProductActivity extends Activity {
     // -- POST & PUT
 
     public void saveProjectOnServer(Product product) {
-        Toast.makeText(this, "Ok, It was saved ;)", Toast.LENGTH_SHORT).show();
+        LoaderPipe<Product> productPipe = application.getProductPipe(this);
+        productPipe.save(product, new ProductSaveCallback());
     }
 
     private static class ProductSaveCallback extends AbstractActivityCallback<Product> {
