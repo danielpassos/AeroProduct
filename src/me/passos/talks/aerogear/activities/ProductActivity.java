@@ -3,6 +3,7 @@ package me.passos.talks.aerogear.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,14 +13,17 @@ import me.passos.talks.aerogear.AeroProductsApplication;
 import me.passos.talks.aerogear.R;
 import me.passos.talks.aerogear.fragments.ProductFormFragment;
 import me.passos.talks.aerogear.fragments.ProductListFragment;
+import me.passos.talks.aerogear.handler.NotifyingMessageHandler;
 import me.passos.talks.aerogear.model.Product;
 import me.passos.talks.aerogear.util.Constants;
 import org.jboss.aerogear.android.pipeline.AbstractActivityCallback;
 import org.jboss.aerogear.android.pipeline.LoaderPipe;
+import org.jboss.aerogear.android.unifiedpush.MessageHandler;
+import org.jboss.aerogear.android.unifiedpush.Registrations;
 
 import java.util.List;
 
-public class ProductActivity extends Activity {
+public class ProductActivity extends Activity implements MessageHandler {
 
     private AeroProductsApplication application;
     private Display display;
@@ -37,6 +41,20 @@ public class ProductActivity extends Activity {
         application = (AeroProductsApplication) getApplication();
 
         retrieveProductListFromServer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Registrations.unregisterBackgroundThreadHandler(NotifyingMessageHandler.instance);
+        Registrations.registerMainThreadHandler(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Registrations.unregisterMainThreadHandler(this);
+        Registrations.registerBackgroundThreadHandler(NotifyingMessageHandler.instance);
     }
 
     @Override
@@ -191,6 +209,20 @@ public class ProductActivity extends Activity {
             activity.displayErrorMessage(e);
         }
 
+    }
+
+    @Override
+    public void onMessage(Context context, Bundle bundle) {
+        Toast.makeText(this, bundle.getString("alert"), Toast.LENGTH_SHORT).show();
+        retrieveProductListFromServer();
+    }
+
+    @Override
+    public void onDeleteMessage(Context context, Bundle message) {
+    }
+
+    @Override
+    public void onError() {
     }
 
 }

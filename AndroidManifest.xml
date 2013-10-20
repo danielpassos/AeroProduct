@@ -29,8 +29,10 @@
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
                 <category android:name="me.passos.talks.aerogear"/>
             </intent-filter>
+            <!--
             <meta-data android:name="DEFAULT_MESSAGE_HANDLER_KEY"
                        android:value="me.passos.talks.aerogear.handler.NotifyingMessageHandler"/>
+            -->
         </receiver>
 
     </application>
