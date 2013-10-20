@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import me.passos.talks.aerogear.R;
 import me.passos.talks.aerogear.activities.ProductActivity;
+import me.passos.talks.aerogear.model.MessageType;
 import org.jboss.aerogear.android.unifiedpush.MessageHandler;
 
 public class NotifyingMessageHandler implements MessageHandler {
@@ -24,7 +25,10 @@ public class NotifyingMessageHandler implements MessageHandler {
     @Override
     public void onMessage(Context context, Bundle bundle) {
         ctx = context;
-        sendNotification(bundle.getString("alert"));
+        String messageType = bundle.getString("messageType");
+        if (MessageType.ADDED.toString().equals(messageType)) {
+            sendNotification(bundle.getString("alert"));
+        }
     }
 
     private void sendNotification(String msg) {

@@ -14,6 +14,7 @@ import me.passos.talks.aerogear.R;
 import me.passos.talks.aerogear.fragments.ProductFormFragment;
 import me.passos.talks.aerogear.fragments.ProductListFragment;
 import me.passos.talks.aerogear.handler.NotifyingMessageHandler;
+import me.passos.talks.aerogear.model.MessageType;
 import me.passos.talks.aerogear.model.Product;
 import me.passos.talks.aerogear.util.Constants;
 import org.jboss.aerogear.android.pipeline.AbstractActivityCallback;
@@ -213,7 +214,10 @@ public class ProductActivity extends Activity implements MessageHandler {
 
     @Override
     public void onMessage(Context context, Bundle bundle) {
-        Toast.makeText(this, bundle.getString("alert"), Toast.LENGTH_SHORT).show();
+        String messageType = bundle.getString("messageType");
+        if (MessageType.ADDED.toString().equals(messageType)) {
+            Toast.makeText(this, bundle.getString("alert"), Toast.LENGTH_SHORT).show();
+        }
         retrieveProductListFromServer();
     }
 
